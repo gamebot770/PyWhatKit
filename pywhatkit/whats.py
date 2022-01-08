@@ -12,6 +12,7 @@ pg.FAILSAFE = False
 
 core.check_connection()
 
+WAIT_TO_LOAD = 6
 
 def sendwhatmsg_instantly(
     phone_no: str,
@@ -26,9 +27,10 @@ def sendwhatmsg_instantly(
         raise exceptions.CountryCodeException("Country Code Missing in Phone Number!")
 
     web.open(f"https://web.whatsapp.com/send?phone={phone_no}&text={quote(message)}")
-    time.sleep(4)
+    time.sleep(WAIT_TO_LOAD)
     pg.click(core.WIDTH / 2, core.HEIGHT / 2)
-    time.sleep(wait_time - 4)
+    time.sleep(wait_time - WAIT_TO_LOAD)
+    pg.press("enter")
     pg.press("enter")
     log.log_message(_time=time.localtime(), receiver=phone_no, message=message)
     if tab_close:

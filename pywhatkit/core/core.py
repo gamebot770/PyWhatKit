@@ -42,7 +42,6 @@ def check_connection() -> None:
             "Error while connecting to the Internet. Make sure you are connected to the Internet!"
         )
 
-
 def _web(receiver: str, message: str) -> None:
     """Opens WhatsApp Web based on the Receiver"""
     if check_number(number=receiver):
