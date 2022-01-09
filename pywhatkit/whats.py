@@ -7,12 +7,13 @@ from urllib.parse import quote
 import pyautogui as pg
 
 from pywhatkit.core import core, exceptions, log
+import winsound
 
 pg.FAILSAFE = False
 
 core.check_connection()
 
-WAIT_TO_LOAD = 6
+WAIT_TO_LOAD = 8
 
 def sendwhatmsg_instantly(
     phone_no: str,
@@ -28,6 +29,9 @@ def sendwhatmsg_instantly(
 
     web.open(f"https://web.whatsapp.com/send?phone={phone_no}&text={quote(message)}")
     time.sleep(WAIT_TO_LOAD)
+    frequency = 2500  # Set Frequency To 2500 Hertz
+    duration = 400  # Set Duration To 1000 ms == 1 second
+    winsound.Beep(frequency, duration)
     pg.click(core.WIDTH / 2, core.HEIGHT / 2)
     time.sleep(wait_time - WAIT_TO_LOAD)
     pg.press("enter")
