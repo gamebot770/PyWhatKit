@@ -13,7 +13,8 @@ pg.FAILSAFE = False
 
 core.check_connection()
 
-WAIT_TO_LOAD = 8
+WAIT_TO_LOAD_WEB = 8
+WAIT_TO_LOAD_APP = 3
 
 def sendwhatmsg_instantly(
     phone_no: str,
@@ -21,19 +22,25 @@ def sendwhatmsg_instantly(
     wait_time: int = 15,
     tab_close: bool = False,
     close_time: int = 3,
+    use_whatsapp_app: bool = False,
 ) -> None:
     """Send WhatsApp Message Instantly"""
-
+    wait_to_load = 0
     if not core.check_number(number=phone_no):
         raise exceptions.CountryCodeException("Country Code Missing in Phone Number!")
+    if use_whatsapp_app:
+        web.open(f"https://api.whatsapp.com/send?phone={phone_no}&text={quote(message)}")
+        wait_to_load = WAIT_TO_LOAD_APP
+    else:
+        web.open(f"https://web.whatsapp.com/send?phone={phone_no}&text={quote(message)}")
+        wait_to_load = WAIT_TO_LOAD_WEB
 
-    web.open(f"https://web.whatsapp.com/send?phone={phone_no}&text={quote(message)}")
-    time.sleep(WAIT_TO_LOAD)
+    time.sleep(wait_to_load)
     frequency = 2500  # Set Frequency To 2500 Hertz
     duration = 400  # Set Duration To 1000 ms == 1 second
     winsound.Beep(frequency, duration)
     pg.click(core.WIDTH / 2, core.HEIGHT / 2)
-    time.sleep(wait_time - WAIT_TO_LOAD)
+    time.sleep(wait_time - wait_to_load)
     pg.press("enter")
     pg.press("enter")
     log.log_message(_time=time.localtime(), receiver=phone_no, message=message)
