@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Optional
 from urllib.parse import quote
 
+import pyautogui
 import pyautogui as pg
 
 from pywhatkit.core import core, exceptions, log
@@ -36,10 +37,11 @@ def sendwhatmsg_instantly(
         wait_to_load = WAIT_TO_LOAD_WEB
 
     time.sleep(wait_to_load)
-    frequency = 2500  # Set Frequency To 2500 Hertz
-    duration = 400  # Set Duration To 1000 ms == 1 second
-    winsound.Beep(frequency, duration)
+    # frequency = 2500  # Set Frequency To 2500 Hertz
+    # duration = 400  # Set Duration To 1000 ms == 1 second
+    # winsound.Beep(frequency, duration)
     pg.click(core.WIDTH / 2, core.HEIGHT / 2)
+    pyautogui.getActiveWindow().maximize()
     time.sleep(wait_time - wait_to_load)
     pg.press("enter")
     pg.press("enter")
