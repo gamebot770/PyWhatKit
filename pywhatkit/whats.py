@@ -45,9 +45,12 @@ def sendwhatmsg_instantly(
     time.sleep(wait_time - wait_to_load)
     pg.press("enter")
     pg.press("enter")
+    time.sleep(0.3)
+    pg.click(core.WIDTH / 2, core.HEIGHT / 2)
     log.log_message(_time=time.localtime(), receiver=phone_no, message=message)
     if tab_close:
         core.close_tab(wait_time=close_time)
+
 
 
 def sendwhatmsg(
